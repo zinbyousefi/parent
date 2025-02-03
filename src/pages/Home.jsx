@@ -1,13 +1,22 @@
 import { useEffect } from "react";
+import Header from "../components/Header";
 
 const Home = () => {
-    useEffect(()=>{
-        document.title = 'پرنت | صفحه اصلی'
-    })
+  useEffect(() => {
+    document.title = "پرنت | صفحه اصلی";
+  }, []);
+
   return (
-    <div>
+    <div className="relative">
+      <Header />
       <div>
-        <img src="./src/assets/images/homeImages/1.jpg" className="rounded-b-[4rem] -z-10"></img>
+        <img
+          src="./src/assets/images/homeImages/1.jpg"
+          className="w-full h-[450px] object-cover rounded-b-[3rem]"
+        />
+      </div>
+      <div className="h-[100vh] bg-gray-100 flex items-center justify-center">
+        <p>محتوای صفحه...</p>
       </div>
     </div>
   );
