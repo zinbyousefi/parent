@@ -1,5 +1,11 @@
 import { useEffect } from "react";
 import Header from "../components/Header";
+import FirstPart from "../components/FirstPart";
+import Suggestions from "../components/Suggestions";
+import Stat from "../components/Stat";
+import Section from "../components/Section";
+import Faq from "../components/Faq";
+import SectionTwo from "../components/SectionTwo";
 
 const Home = () => {
   useEffect(() => {
@@ -9,15 +15,18 @@ const Home = () => {
   return (
     <div className="relative">
       <Header />
-      <div>
+      <div className="pb-40">
         <img
           src="./src/assets/images/homeImages/1.jpg"
           className="w-full h-[450px] object-cover rounded-b-[3rem]"
         />
       </div>
-      <div className="h-[100vh] bg-gray-100 flex items-center justify-center">
-        <p>محتوای صفحه...</p>
-      </div>
+      <FirstPart />
+      <Suggestions />
+      <Stat />
+      <Section />
+      <SectionTwo />
+      <Faq />
     </div>
   );
 };
