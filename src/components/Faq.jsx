@@ -23,7 +23,7 @@ const faqs = [
 
 const Faq = () => {
   return (
-    <div className="flex flex-col gap-10 mx-32 p-4">
+    <div className="flex flex-col gap-10 mx-32 p-4 mb-20">
       <h2 className="desktop:text-xl xs:text-xl text-black font-bold flex items-center gap-2">
         <FaRegCircleQuestion className="text-[gold]" size={20} />
         سوالات متداول
