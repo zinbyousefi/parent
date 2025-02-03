@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { BsPersonFill } from "react-icons/bs";
-import { FaInfoCircle } from "react-icons/fa";
+import LoginOrRegister from "./LoginOrRegister";
+import { Link } from "react-router-dom";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -54,7 +55,9 @@ const Header = () => {
               </details>
             </li>
             <li>
-              <a>درباره ما</a>
+              <Link to={"/about"}>
+                <a>درباره ما</a>
+              </Link>
             </li>
             <li>
               <a>تماس</a>
@@ -85,29 +88,7 @@ const Header = () => {
               ✕
             </button>
           </form>
-          <div className="flex flex-col gap-3 justify-center items-center">
-            <h3 className="font-bold text-sm ">ورود یا ثبت نام </h3>
-            <p className="py-4 text-gray-600">
-              برای ادامه شماره موبایل خود را وارد کنید.
-            </p>
-            <input
-              type="text"
-              placeholder="شماره موبایل"
-              className="bg-white border-2 border-gray-300 rounded-lg w-2/3 py-2 px-5 focus:ring-[gold]"
-            />
-            <p className="text-[11px] flex gap-1 items-center">
-              <FaInfoCircle />
-              استفاده از پرنت به معنی پذیرش{" "}
-              <span className="text-[gold]"> قوانین و مقررات </span> این سرویس
-              است.
-            </p>
-            <button className="bg-[gold] w-2/3 rounded-lg py-2 px-5">
-              تایید و دریافت
-            </button>
-            <p className="text-sm text-[gold] hover:text-[goldenrod] cursor-pointer">
-              ورود با کلمه عبور
-            </p>
-          </div>
+          <LoginOrRegister />
         </div>
       </dialog>
     </div>
