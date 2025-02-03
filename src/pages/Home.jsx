@@ -6,6 +6,7 @@ import Stat from "../components/Stat";
 import Section from "../components/Section";
 import Faq from "../components/Faq";
 import SectionTwo from "../components/SectionTwo";
+import Sectionthree from "../components/Sectionthree";
 
 const Home = () => {
   useEffect(() => {
@@ -27,6 +28,7 @@ const Home = () => {
       <Section />
       <SectionTwo />
       <Faq />
+      <Sectionthree />
     </div>
   );
 };

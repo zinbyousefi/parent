@@ -314,8 +314,8 @@ const FirstPart = () => {
             )}
           </div>
           <button
-            className="bg-[gold] py-1 px-4 text-black rounded-full
-           flex gap-2 items-center text-xs"
+            className="bg-[gold] py-1 px-4 w-1/6 text-center text-black rounded-full
+           flex gap-2 items-center justify-center text-xs"
           >
             جستجو
             <IoSearch />
