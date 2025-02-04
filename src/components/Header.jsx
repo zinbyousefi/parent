@@ -115,6 +115,7 @@ const Header = () => {
               ✕
             </button>
           </form>
+          <h1 className="text-lg text-black text-center font-bold mb-5">تماس با ما</h1>
           <p className="text-xs leading-7 mb-5">
             برای هرگونه سوال، پیشنهاد یا درخواست پشتیبانی، خوشحال می‌شویم که با
             ما تماس بگیرید. تیم پشتیبانی پرنت به‌طور مداوم در تلاش است تا بهترین
@@ -132,10 +133,11 @@ const Header = () => {
               <MdOutlineEmail color="gold" size={20} />
               ایمیل: mail@email.com
             </div>
-            <div className="font-bold text-sm px-10 flex justify-center items-center ">
+            <div className="font-bold text-sm px-10 flex justify-center items-center">
               <FaLocationDot color="gold" size={30} />
+              
               آدرس دفتر مرکزی: خیابان ولی‌عصر، تقاطع بلوار کشاورز، پلاک ۱۲۳،
-              طبقه ۱۲۳، واحد ۱۲۳ کد پستی: ۱۵۱۴۵-۶۷۸۹۰
+              طبقه ۱۲۳، واحد ۱۲۳ 
             </div>
           </div>
         </div>
