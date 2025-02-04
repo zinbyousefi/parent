@@ -4,6 +4,8 @@ import { FcApproval } from "react-icons/fc";
 import PropTypes from "prop-types";
 import { FaArrowLeft, FaHotel } from "react-icons/fa";
 import { FaHouse } from "react-icons/fa6";
+import "swiper/css/pagination";
+import { Pagination } from "swiper/modules";
 
 const images = [
   {
@@ -79,10 +81,10 @@ const Suggestions = () => {
       </h1>
       <div>
         <Swiper
+          modules={[Pagination]}
           spaceBetween={20}
           slidesPerView={3}
           loop={true}
-          navigation
           pagination={{ clickable: true }}
           className="w-full"
         >

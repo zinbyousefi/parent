@@ -42,8 +42,6 @@ const FirstPart = () => {
     option.toLowerCase().includes(searchEnd.toLowerCase())
   );
 
-
-
   /////
 
   const [isOpen, setIsOpen] = useState(false); // برای نمایش یا مخفی کردن لیست
@@ -101,6 +99,9 @@ const FirstPart = () => {
       updateInputValue();
     }
   };
+
+  const [tripType, setTripType] = useState("یک طرفه");
+
   return (
     <div className="z-40  w-full flex flex-col gap-4 px-24 absolute top-[210px]">
       <div className="backdrop-blur-md p-5 rounded-full bg-opacity-20 bg-white flex gap-8">
@@ -123,6 +124,8 @@ const FirstPart = () => {
         <select
           className="py-1 px-2 text-xs rounded-full border-gray-300 border-2 text-black
          focus:border-[gold] w-fit bg-white max-w-xs"
+          value={tripType}
+          onChange={(e) => setTripType(e.target.value)}
         >
           <option selected>یک طرفه</option>
           <option>دو طرفه</option>
@@ -224,17 +227,19 @@ const FirstPart = () => {
           <div style={{ direction: "rtl" }}>
             <DatePicker
               style={{
-                backgroundColor: "white",
+                backgroundColor: tripType === "یک طرفه" ? "#e5e7eb" : "white", 
                 borderWidth: "2px",
-                borderColor: "#d1d5db",
+                borderColor: "#d1d5db", 
                 height: "24px",
                 borderRadius: "9999px",
                 fontSize: "14px",
                 padding: "20px 15px",
+                cursor: tripType === "یک طرفه" ? "not-allowed" : "pointer",
               }}
-              placeholder="تاریخ رفت"
+              placeholder="تاریخ برگشت"
               calendar={persian}
               locale={persian_fa}
+              disabled={tripType === "یک طرفه"}
               calendarPosition="bottom-right"
             />
           </div>
