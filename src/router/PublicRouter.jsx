@@ -4,6 +4,10 @@ import { createBrowserRouter } from "react-router-dom";
 import Home from "../pages/Home";
 import About from "../pages/About";
 import Foreign from "../pages/Foreign";
+import ProfileLayout from "../layout/ProfileLayout";
+import MyAccount from "../pages/MyAccount";
+import MyTravels from "../pages/MyTravels";
+import MyInventory from "../pages/MyInventory";
 
 const router = createBrowserRouter([
   {
@@ -25,6 +29,38 @@ const router = createBrowserRouter([
   {
     path: "/foreign",
     element: <Foreign />,
+  },
+  {
+    path: "/profile",
+    element: (
+      <ProfileLayout>
+        <MyAccount />
+      </ProfileLayout>
+    ),
+  },
+  {
+    path: "/my-account",
+    element: (
+      <ProfileLayout>
+        <MyAccount />
+      </ProfileLayout>
+    ),
+  },
+  {
+    path: "/my-travels",
+    element: (
+      <ProfileLayout>
+        <MyTravels />
+      </ProfileLayout>
+    ),
+  },
+  {
+    path: "/my-inventory",
+    element: (
+      <ProfileLayout>
+        <MyInventory />
+      </ProfileLayout>
+    ),
   },
 ]);
 export default router;

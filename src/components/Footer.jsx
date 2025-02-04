@@ -4,7 +4,7 @@ import { FaInstagram, FaTelegramPlane, FaYoutube } from "react-icons/fa";
 const Footer = () => {
   return (
     <>
-      <div className="border-t-2 border-[#9333ea] p-10 px-24">
+      <div className="border-t-2 bg-white border-[#9333ea] p-10 px-24">
         {/* first part  */}
         <div className="flex justify-between pb-10 border-b-2 border-slate-200">
           <div className="flex flex-col gap-5">
@@ -23,7 +23,7 @@ const Footer = () => {
             h-12 rounded-r-md p-2 w-full placeholder-slate-600"
               placeholder="ایمیل شما"
             />
-            <button className="bg-white border border-gray-300 h-12 px-4 text-slate-600 rounded-l-md">
+            <button className="bg-white border-b border-t border-l border-gray-300 h-12 px-4 text-slate-600 rounded-l-md">
               ثبت
             </button>
           </div>
@@ -85,7 +85,7 @@ const Footer = () => {
         </div>
       </div>
       {/* third part  */}
-      <div className="bg-slate-100 flex justify-between px-24 py-5">
+      <div className="bg-gray-200 flex justify-between px-24 py-5">
         <p className="text-gray-500 text-xs">
           هرگونه استفاده از این موارد بدون مجوز کتبی و صریح از شرکت پرنت ، نقض
           حقوق مالکیت معنوی محسوب شده و پیگرد قانونی خواهد داشت.
