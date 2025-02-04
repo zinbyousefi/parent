@@ -8,6 +8,7 @@ import Faq from "../components/Faq";
 import SectionTwo from "../components/SectionTwo";
 import Sectionthree from "../components/Sectionthree";
 import BusyRoutes from "../components/BusyRoutes";
+import LastTickets from "../components/LastTickets";
 
 const Home = () => {
   useEffect(() => {
@@ -30,6 +31,7 @@ const Home = () => {
       <Section />
       <SectionTwo />
       <Faq />
+      <LastTickets />
       <Sectionthree />
     </div>
   );
