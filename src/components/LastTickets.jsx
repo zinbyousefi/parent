@@ -51,7 +51,6 @@ export default function LastTickets() {
         slidesPerView={3}
         spaceBetween={15}
         loop={true}
-        
         autoplay={{ delay: 2500, disableOnInteraction: false }}
         modules={[ Autoplay]}
         className="h-[300px]"

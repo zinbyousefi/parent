@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react";
-import { BsPersonFill } from "react-icons/bs";
+import { BsFillTelephoneFill, BsPersonFill } from "react-icons/bs";
 import LoginOrRegister from "./LoginOrRegister";
 import { Link } from "react-router-dom";
+import { MdOutlineEmail } from "react-icons/md";
+import { FaLocationDot } from "react-icons/fa6";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
@@ -28,14 +30,16 @@ const Header = () => {
     >
       {/* right */}
       <div className="navbar text-white flex gap-8 items-center">
-        <div
-          className={`flex gap-2 items-center ${
-            isScrolled ? "text-black" : "text-white"
-          }`}
-        >
-          <img src="logo.png" className="size-10"></img>
-          <a className="btn btn-ghost text-3xl font-bold">پرنت</a>
-        </div>
+        <Link to={"/"}>
+          <div
+            className={`flex gap-2 items-center ${
+              isScrolled ? "text-black" : "text-white"
+            }`}
+          >
+            <img src="logo.png" className="size-10"></img>
+            <a className="btn btn-ghost text-3xl font-bold">پرنت</a>
+          </div>
+        </Link>
         <div className="flex-none">
           <ul
             className={`menu menu-horizontal font-bold ${
@@ -49,12 +53,16 @@ const Header = () => {
                   className="bg-white rounded-lg w-32 flex flex-col 
                 justify-between text-black p-2"
                 >
-                  <li className="w-full text-center whitespace-nowrap">
-                    <a>پرواز داخلی</a>
-                  </li>
-                  <li className="w-full text-center whitespace-nowrap">
-                    <a>پرواز خارجی</a>
-                  </li>
+                  <Link to={"/"}>
+                    <li className="w-full text-center whitespace-nowrap">
+                      <a>پرواز داخلی</a>
+                    </li>
+                  </Link>
+                  <Link to={"/foreign"}>
+                    <li className="w-full text-center whitespace-nowrap">
+                      <a>پرواز خارجی</a>
+                    </li>
+                  </Link>
                 </ul>
               </details>
             </li>
@@ -64,7 +72,13 @@ const Header = () => {
               </Link>
             </li>
             <li>
-              <a>تماس</a>
+              <a
+                onClick={() =>
+                  document.getElementById("my_modal_4").showModal()
+                }
+              >
+                تماس
+              </a>
             </li>
           </ul>
         </div>
@@ -92,6 +106,38 @@ const Header = () => {
             </button>
           </form>
           <LoginOrRegister />
+        </div>
+      </dialog>
+      <dialog id="my_modal_4" className="modal">
+        <div className="modal-box bg-white text-black p-10">
+          <form method="dialog">
+            <button className="btn btn-sm btn-circle btn-ghost absolute right-2 top-2">
+              ✕
+            </button>
+          </form>
+          <p className="text-xs leading-7 mb-5">
+            برای هرگونه سوال، پیشنهاد یا درخواست پشتیبانی، خوشحال می‌شویم که با
+            ما تماس بگیرید. تیم پشتیبانی پرنت به‌طور مداوم در تلاش است تا بهترین
+            خدمات را به شما ارائه دهد و از نظرات و پیشنهادات شما استقبال می‌کند.
+            لطفاً برای ارتباط با ما از طریق فرم زیر استفاده کنید یا به آدرس
+            ایمیل و شماره تماس ارائه شده مراجعه نمایید. تیم ما در سریع‌ترین زمان
+            ممکن پاسخگوی شما خواهد بود.
+          </p>
+          <div className="text-center border p-3 flex flex-col gap-4 border-slate-300 rounded-md">
+            <div className="font-bold flex justify-center gap-2">
+              <BsFillTelephoneFill color="gold" />
+              شماره تماس: ۰۲۱ - ۱۲۳۴ ۰۰۰۰
+            </div>
+            <div className="font-bold flex justify-center items-center gap-2">
+              <MdOutlineEmail color="gold" size={20} />
+              ایمیل: mail@email.com
+            </div>
+            <div className="font-bold text-sm px-10 flex justify-center items-center ">
+              <FaLocationDot color="gold" size={30} />
+              آدرس دفتر مرکزی: خیابان ولی‌عصر، تقاطع بلوار کشاورز، پلاک ۱۲۳،
+              طبقه ۱۲۳، واحد ۱۲۳ کد پستی: ۱۵۱۴۵-۶۷۸۹۰
+            </div>
+          </div>
         </div>
       </dialog>
     </div>
