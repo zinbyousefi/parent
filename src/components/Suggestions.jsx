@@ -74,7 +74,7 @@ StarRating.propTypes = {
 
 const Suggestions = () => {
   return (
-    <div className="px-24 pb-10">
+    <div className="px-24 pb-10 mb-20">
       <h1 className="text-black text-lg font-bold flex items-center gap-2 mb-10">
         <FcApproval />
         پیشنهاد ها

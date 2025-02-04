@@ -6,26 +6,29 @@ import persian_fa from "react-date-object/locales/persian_fa";
 import { IoSearch } from "react-icons/io5";
 import { Link } from "react-router-dom";
 
-const FirstPart = () => {
+const FirstPartForeign = () => {
   const startCity = [
-    "تهران ",
-    "اهواز ",
-    "شیراز ",
-    "مشهد ",
-    "بندر عباس",
-    "اصفهان ",
-    "تبریز ",
-    "کیش ",
+    "آنکارا , ترکیه ",
+    "تورنتو  , کانادا",
+    "ازمیر , ترکیه ",
+    "استانبول , ترکیه ",
+    "ایروان  , ارمنستان",
+    "دبی  , امارات",
+    "فرانکفورت  , آلمان",
+    "لندن  , انگلیس",
+    "میلان  , ایتالیا",
+    
   ];
   const endCity = [
-    "تهران ",
-    "اهواز ",
-    "شیراز ",
-    "مشهد ",
-    "بندر عباس",
-    "اصفهان ",
-    "تبریز ",
-    "کیش ",
+    "آنکارا , ترکیه ",
+    "تورنتو  , کانادا",
+    "ازمیر , ترکیه ",
+    "استانبول , ترکیه ",
+    "ایروان  , ارمنستان",
+    "دبی  , امارات",
+    "فرانکفورت  , آلمان",
+    "لندن  , انگلیس",
+    "میلان  , ایتالیا",
   ];
 
   const [searchStart, setSearchTerm] = useState("");
@@ -106,19 +109,21 @@ const FirstPart = () => {
   return (
     <div className="z-40  w-full flex flex-col gap-4 px-24 absolute top-[210px]">
       <div className="backdrop-blur-md p-5 rounded-full bg-opacity-20 bg-white flex gap-8">
-        <div
-          className="text-black bg-white border-4 border-[gold] 
-        flex cursor-pointer items-center gap-2 rounded-full p-2 px-5"
-        >
-          <IoMdAirplane className="text-[gold]" />
-          پرواز داخلی
-        </div>
-        <Link to={"/foreign"}>
+        <Link to={"/"}>
           <div
-            className="text-gray-700 border-4 border-gray-300 bg-white flex gap-2 
-         cursor-pointer items-center rounded-full p-2 px-5"
+            className=" text-gray-700 bg-white border-4  border-gray-300
+        flex cursor-pointer items-center gap-2 rounded-full p-2 px-5"
           >
             <IoMdAirplane />
+            پرواز داخلی
+          </div>
+        </Link>
+        <Link to={"/foreign"}>
+          <div
+            className="text-black border-4 border-[gold]   bg-white flex gap-2 
+         cursor-pointer items-center rounded-full p-2 px-5"
+          >
+            <IoMdAirplane className="text-[gold]" />
             پرواز خارجی
           </div>
         </Link>
@@ -144,7 +149,7 @@ const FirstPart = () => {
               className="w-full p-2 cursor-pointer border-gray-300 border-2 placeholder:text-gray-500 text-gray-500
                bg-white rounded-full focus:outline-none
               focus:ring-2 focus:ring-[gold]"
-              placeholder="مبدا (شهر)"
+              placeholder="مبدا (شهر , فرودگاه)"
             />
             {isOpenStart && (
               <ul
@@ -181,7 +186,7 @@ const FirstPart = () => {
               className="w-full p-2 cursor-pointer border-gray-300 border-2 placeholder:text-gray-500 text-gray-500
                bg-white rounded-full focus:outline-none
               focus:ring-2 focus:ring-[gold]"
-              placeholder="مقصد (شهر)"
+              placeholder="مقصد (شهر , فرودگاه)"
             />
             {isOpenEnd && (
               <ul
@@ -334,4 +339,4 @@ const FirstPart = () => {
   );
 };
 
-export default FirstPart;
+export default FirstPartForeign;
