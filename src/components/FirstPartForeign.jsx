@@ -17,7 +17,6 @@ const FirstPartForeign = () => {
     "فرانکفورت  , آلمان",
     "لندن  , انگلیس",
     "میلان  , ایتالیا",
-    
   ];
   const endCity = [
     "آنکارا , ترکیه ",
@@ -131,12 +130,12 @@ const FirstPartForeign = () => {
       <div className="bg-white pb-10 p-6 rounded-lg flex flex-col gap-14 shadow-md">
         <select
           className="py-1 px-2 text-xs rounded-full border-gray-300 border-2 text-black
-         focus:border-[gold] w-fit bg-white max-w-xs"
+    focus:border-[gold] w-fit bg-white max-w-xs"
           value={tripType}
           onChange={(e) => setTripType(e.target.value)}
         >
-          <option selected>یک طرفه</option>
-          <option>دو طرفه</option>
+          <option value="یک طرفه">یک طرفه</option>
+          <option value="دو طرفه">دو طرفه</option>
         </select>
         <div className="flex gap-2">
           <div className="relative w-1/6">

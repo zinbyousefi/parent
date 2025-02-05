@@ -4,23 +4,22 @@ import LoginOrRegister from "./LoginOrRegister";
 import { Link } from "react-router-dom";
 import { MdOutlineEmail } from "react-icons/md";
 import { FaLocationDot } from "react-icons/fa6";
+import useUserStore from "../stores/user-store";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
+  const { id, initializeAuth } = useUserStore(); 
 
   useEffect(() => {
+    initializeAuth();
+
     const handleScroll = () => {
-      if (window.scrollY > 50) {
-        setIsScrolled(true);
-      } else {
-        setIsScrolled(false);
-      }
+      setIsScrolled(window.scrollY > 50);
     };
 
     window.addEventListener("scroll", handleScroll);
     return () => window.removeEventListener("scroll", handleScroll);
-  }, []);
-
+  }, [initializeAuth]);
   return (
     <div
       className={`fixed top-0 left-0 w-full flex justify-between items-center
@@ -60,16 +59,14 @@ const Header = () => {
                   </Link>
                   <Link to={"/foreign"}>
                     <li className="w-full text-center whitespace-nowrap">
-                     پرواز خارجی
+                      پرواز خارجی
                     </li>
                   </Link>
                 </ul>
               </details>
             </li>
             <li>
-              <Link to={"/about"}>
-              درباره ما
-              </Link>
+              <Link to={"/about"}>درباره ما</Link>
             </li>
             <li>
               <a
@@ -85,16 +82,26 @@ const Header = () => {
       </div>
       {/* left */}
       <div>
-        <button
-          className={`py-2 px-3 rounded-md text-xs font-bold whitespace-nowrap
-         text-black border-none hover:bg-gray-300 flex gap-2 items-center ${
-           isScrolled ? "bg-gray-100" : "bg-white"
-         }`}
-          onClick={() => document.getElementById("my_modal_3").showModal()}
-        >
-          ورود یا ثبت نام
-          <BsPersonFill />
-        </button>
+        {id ? (
+          <Link to={"/my-account"}>
+            <button
+              className="py-2 px-3 rounded-md text-xs font-bold whitespace-nowrap
+           text-black border-none hover:bg-gray-300 flex gap-2 items-center bg-gray-100"
+            >
+              <BsPersonFill />
+              {id}
+            </button>
+          </Link>
+        ) : (
+          <button
+            className="py-2 px-3 rounded-md text-xs font-bold whitespace-nowrap
+             text-black border-none hover:bg-gray-300 flex gap-2 items-center bg-white"
+            onClick={() => document.getElementById("my_modal_3").showModal()}
+          >
+            <BsPersonFill />
+            ورود یا ثبت‌نام
+          </button>
+        )}
       </div>
 
       <dialog id="my_modal_3" className="modal">
@@ -115,7 +122,9 @@ const Header = () => {
               ✕
             </button>
           </form>
-          <h1 className="text-lg text-black text-center font-bold mb-5">تماس با ما</h1>
+          <h1 className="text-lg text-black text-center font-bold mb-5">
+            تماس با ما
+          </h1>
           <p className="text-xs leading-7 mb-5">
             برای هرگونه سوال، پیشنهاد یا درخواست پشتیبانی، خوشحال می‌شویم که با
             ما تماس بگیرید. تیم پشتیبانی پرنت به‌طور مداوم در تلاش است تا بهترین
@@ -135,9 +144,8 @@ const Header = () => {
             </div>
             <div className="font-bold text-sm px-10 flex justify-center items-center">
               <FaLocationDot color="gold" size={30} />
-              
               آدرس دفتر مرکزی: خیابان ولی‌عصر، تقاطع بلوار کشاورز، پلاک ۱۲۳،
-              طبقه ۱۲۳، واحد ۱۲۳ 
+              طبقه ۱۲۳، واحد ۱۲۳
             </div>
           </div>
         </div>

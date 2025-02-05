@@ -6,8 +6,16 @@ import { Link, useLocation } from "react-router-dom";
 import { FaWallet } from "react-icons/fa";
 import PropTypes from "prop-types";
 import Footer from "../components/Footer";
+import { useEffect } from "react";
+import useUserStore from "../stores/user-store";
+import useUser from "../hooks/useUser";
 
 const ProfileLayout = ({ children }) => {
+  const { id, initializeAuth } = useUserStore();
+  const { data: user } = useUser(id);
+  useEffect(() => {
+    initializeAuth();
+  }, [initializeAuth]);
   const location = useLocation();
   return (
     <div className="bg-gray-100">
@@ -67,14 +75,26 @@ const ProfileLayout = ({ children }) => {
         </div>
         {/* left */}
         <div>
-          <button
-            className="py-2 px-3 rounded-md text-xs font-bold whitespace-nowrap
-         text-black border-none hover:bg-gray-300 bg-gray-200 flex gap-2 items-center"
-            onClick={() => document.getElementById("my_modal_3").showModal()}
-          >
-            ورود یا ثبت نام
-            <BsPersonFill />
-          </button>
+          {id ? (
+            <Link to={"/my-account"}>
+              <button
+                className="py-2 px-3 rounded-md text-xs font-bold whitespace-nowrap
+           text-black border-none hover:bg-gray-300 flex gap-2 items-center bg-gray-200"
+              >
+                <BsPersonFill />
+                {id}
+              </button>
+            </Link>
+          ) : (
+            <button
+              className="py-2 px-3 rounded-md text-xs font-bold whitespace-nowrap
+             text-black border-none hover:bg-gray-300 flex gap-2 items-center bg-white"
+              onClick={() => document.getElementById("my_modal_3").showModal()}
+            >
+              <BsPersonFill />
+              ورود یا ثبت‌نام
+            </button>
+          )}
         </div>
 
         <dialog id="my_modal_3" className="modal">
@@ -139,8 +159,8 @@ const ProfileLayout = ({ children }) => {
             className=" border rounded-full border-[gold]"
           ></img>
           <div className="flex flex-col gap-2">
-            <h1 className="text-black font-bold">name</h1>
-            <span className="text-gray-600">09367890005</span>
+            <h1 className="text-black font-bold">{user?.full_name}</h1>
+            <span className="text-gray-600">{user?.phone_number}</span>
           </div>
           {/* ////  */}
           <div className="bg-[#9333ea] p-3 rounded-md w-full flex flex-col gap-5">
@@ -151,10 +171,8 @@ const ProfileLayout = ({ children }) => {
               </span>
               <span className="text-xs"> 0 تومان</span>
             </div>
-            
           </div>
 
-        
           {/* ///  */}
           <div className="gap-4 w-full">
             <h3 className="text-xs text-gray-600 font-bold text-start mb-1">
@@ -188,8 +206,6 @@ const ProfileLayout = ({ children }) => {
                   سفرهای من
                 </li>
               </Link>
-
-          
             </ul>
           </div>
         </div>
@@ -198,7 +214,7 @@ const ProfileLayout = ({ children }) => {
           {children}
         </div>
       </div>
-      
+
       <Footer />
     </div>
   );

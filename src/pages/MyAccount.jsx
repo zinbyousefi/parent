@@ -1,11 +1,17 @@
 import { useEffect } from "react";
 import { FiEdit3 } from "react-icons/fi";
 import { MdOutlineAccountCircle } from "react-icons/md";
+import useUserStore from "../stores/user-store";
+import useUser from "../hooks/useUser";
 
 const MyAccount = () => {
+  const { id, initializeAuth } = useUserStore();
+  const { data: user } = useUser(id);
   useEffect(() => {
+    initializeAuth();
     document.title = "پرنت | حساب کاربری ";
-  }, []);
+  }, [initializeAuth]);
+
   return (
     <div className="flex flex-col gap-10">
       <div className="flex justify-between w-full">
@@ -24,19 +30,15 @@ const MyAccount = () => {
       <div className="flex flex-col w-full gap-10">
         <div className="flex border-b pb-5 justify-between">
           <h3 className="text-sm text-gray-500">شماره موبایل</h3>
-          <span className="text-black font-bold">09364567675</span>
+          <span className="text-black font-bold">{user?.phone_number}</span>
         </div>
         <div className="flex border-b pb-5 justify-between">
           <h3 className="text-sm text-gray-500">ایمیل</h3>
-          <span className="text-black font-bold">email@gmail.com</span>
+          <span className="text-black font-bold">{user?.email}</span>
         </div>
         <div className="flex border-b pb-5 justify-between">
           <h3 className="text-sm text-gray-500">نام و نام خانوادگی</h3>
-          <span className="text-black font-bold">علی محمدی</span>
-        </div>
-        <div className="flex border-b pb-5 justify-between">
-          <h3 className="text-sm text-gray-500">کد ملی</h3>
-          <span className="text-black font-bold ">236789654321</span>
+          <span className="text-black font-bold">{user?.full_name}</span>
         </div>
         <div className="flex pb-5 justify-between">
           <h3 className="text-sm text-gray-500">تاریخ تولد</h3>
