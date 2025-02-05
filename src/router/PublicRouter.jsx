@@ -7,7 +7,6 @@ import Foreign from "../pages/Foreign";
 import ProfileLayout from "../layout/ProfileLayout";
 import MyAccount from "../pages/MyAccount";
 import MyTravels from "../pages/MyTravels";
-import MyInventory from "../pages/MyInventory";
 
 const router = createBrowserRouter([
   {
@@ -51,14 +50,6 @@ const router = createBrowserRouter([
     element: (
       <ProfileLayout>
         <MyTravels />
-      </ProfileLayout>
-    ),
-  },
-  {
-    path: "/my-inventory",
-    element: (
-      <ProfileLayout>
-        <MyInventory />
       </ProfileLayout>
     ),
   },

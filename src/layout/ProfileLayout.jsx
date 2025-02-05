@@ -4,8 +4,6 @@ import { MdOutlineEmail } from "react-icons/md";
 import LoginOrRegister from "../components/LoginOrRegister";
 import { Link, useLocation } from "react-router-dom";
 import { FaWallet } from "react-icons/fa";
-import { FiPlus } from "react-icons/fi";
-import { IoSparklesOutline } from "react-icons/io5";
 import PropTypes from "prop-types";
 import Footer from "../components/Footer";
 
@@ -142,7 +140,7 @@ const ProfileLayout = ({ children }) => {
           ></img>
           <div className="flex flex-col gap-2">
             <h1 className="text-black font-bold">name</h1>
-            <span className="text-gray-600">09373800655</span>
+            <span className="text-gray-600">09367890005</span>
           </div>
           {/* ////  */}
           <div className="bg-[#9333ea] p-3 rounded-md w-full flex flex-col gap-5">
@@ -153,25 +151,10 @@ const ProfileLayout = ({ children }) => {
               </span>
               <span className="text-xs"> 0 تومان</span>
             </div>
-            <Link to={"/my-inventory"}>
-              <div
-                className="text-start text-xs hover:bg-purple-700 w-fit p-2
-             rounded-md bg-opacity-15 text-white flex gap-2 cursor-pointer items-center"
-              >
-                <FiPlus size={20} />
-                افزایش موجودی
-              </div>
-            </Link>
+            
           </div>
 
-          {/* //// */}
-          <div
-            className="border border-[gold] p-2 rounded-md text-start w-full
-           text-gray-600 font-bold text-sm hover:bg-[gold] flex gap-2 items-center"
-          >
-            <IoSparklesOutline size={20} className="text-[goldenrod]" />
-            حساب ویژه پرنت
-          </div>
+        
           {/* ///  */}
           <div className="gap-4 w-full">
             <h3 className="text-xs text-gray-600 font-bold text-start mb-1">
@@ -206,17 +189,7 @@ const ProfileLayout = ({ children }) => {
                 </li>
               </Link>
 
-              <Link to={"/my-inventory"}>
-                <li
-                  className={`border text-gray-500 border-slate-200 rounded-md p-3 ${
-                    location.pathname === "/my-inventory"
-                      ? "bg-gray-200 text-gray-600"
-                      : ""
-                  }`}
-                >
-                  موجودی و اعتبار من
-                </li>
-              </Link>
+          
             </ul>
           </div>
         </div>
@@ -225,6 +198,7 @@ const ProfileLayout = ({ children }) => {
           {children}
         </div>
       </div>
+      
       <Footer />
     </div>
   );
