@@ -12,9 +12,10 @@ const useLogin = () => {
     mutationFn: async (data) => {
       const response = await apiClient.post("/api/v1/login", data);
       login(response.data.id);
-      console.log(response.data.id)
-      navigate("/");
       return response.data;
+    },
+    onSuccess: () => {
+      navigate("/");
     },
   });
 };

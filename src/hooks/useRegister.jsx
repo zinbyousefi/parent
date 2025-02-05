@@ -10,7 +10,7 @@ const useRegister = () => {
   return useMutation({
     mutationKey: ["register"],
     mutationFn: (data) =>
-      apiClient.post("/api/signup", data).then((response) => {
+      apiClient.post("/api/v1/signup", data).then((response) => {
         console.log(response.data);
         navigate("/");
         login(response.data.id);
