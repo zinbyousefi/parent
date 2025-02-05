@@ -37,7 +37,7 @@ const Header = () => {
             }`}
           >
             <img src="logo.png" className="size-10"></img>
-            <a className="btn btn-ghost text-3xl font-bold">پرنت</a>
+            <span className="btn btn-ghost text-3xl font-bold">پرنت</span>
           </div>
         </Link>
         <div className="flex-none">
@@ -51,16 +51,16 @@ const Header = () => {
                 <summary className="flex gap-3">بلیط</summary>
                 <ul
                   className="bg-white rounded-lg w-32 flex flex-col 
-                justify-between text-black p-2"
+                justify-between text-black p-2 gap-3"
                 >
                   <Link to={"/"}>
                     <li className="w-full text-center whitespace-nowrap">
-                      <a>پرواز داخلی</a>
+                      پرواز داخلی
                     </li>
                   </Link>
                   <Link to={"/foreign"}>
                     <li className="w-full text-center whitespace-nowrap">
-                      <a>پرواز خارجی</a>
+                     پرواز خارجی
                     </li>
                   </Link>
                 </ul>
@@ -68,7 +68,7 @@ const Header = () => {
             </li>
             <li>
               <Link to={"/about"}>
-                <a>درباره ما</a>
+              درباره ما
               </Link>
             </li>
             <li>
