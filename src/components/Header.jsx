@@ -5,10 +5,12 @@ import { Link } from "react-router-dom";
 import { MdOutlineEmail } from "react-icons/md";
 import { FaLocationDot } from "react-icons/fa6";
 import useUserStore from "../stores/user-store";
+import useUser from "../hooks/useUser";
 
 const Header = () => {
   const [isScrolled, setIsScrolled] = useState(false);
-  const { id, initializeAuth } = useUserStore(); 
+  const { id, initializeAuth } = useUserStore();
+  const { data: user } = useUser(id);
 
   useEffect(() => {
     initializeAuth();
@@ -89,7 +91,7 @@ const Header = () => {
            text-black border-none hover:bg-gray-300 flex gap-2 items-center bg-gray-100"
             >
               <BsPersonFill />
-              {id}
+              {user?.full_name}
             </button>
           </Link>
         ) : (

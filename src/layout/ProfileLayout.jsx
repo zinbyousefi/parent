@@ -11,7 +11,7 @@ import useUserStore from "../stores/user-store";
 import useUser from "../hooks/useUser";
 
 const ProfileLayout = ({ children }) => {
-  const { id, initializeAuth } = useUserStore();
+  const { id, initializeAuth, logout } = useUserStore();
   const { data: user } = useUser(id);
   useEffect(() => {
     initializeAuth();
@@ -82,13 +82,13 @@ const ProfileLayout = ({ children }) => {
            text-black border-none hover:bg-gray-300 flex gap-2 items-center bg-gray-200"
               >
                 <BsPersonFill />
-                {id}
+                {user?.full_name}
               </button>
             </Link>
           ) : (
             <button
               className="py-2 px-3 rounded-md text-xs font-bold whitespace-nowrap
-             text-black border-none hover:bg-gray-300 flex gap-2 items-center bg-white"
+             text-black border-none hover:bg-gray-300 flex gap-2 items-center bg-gray-200"
               onClick={() => document.getElementById("my_modal_3").showModal()}
             >
               <BsPersonFill />
@@ -195,7 +195,7 @@ const ProfileLayout = ({ children }) => {
                 </li>
               </Link>
 
-              <Link to="/my-travels">
+              <Link to="/my-orders">
                 <li
                   className={`border text-gray-500 border-slate-200 rounded-md p-3 ${
                     location.pathname === "/my-travels"
@@ -206,6 +206,13 @@ const ProfileLayout = ({ children }) => {
                   سفرهای من
                 </li>
               </Link>
+
+              <li
+                className="border cursor-pointer border-slate-200 rounded-md p-3 hover:bg-gray-200 text-gray-600"
+                onClick={() => logout()}
+              >
+                خروج از حساب
+              </li>
             </ul>
           </div>
         </div>

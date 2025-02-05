@@ -142,14 +142,14 @@ const FirstPartForeign = () => {
             <input
               type="text"
               value={selectedStart}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={(e) => setSelectedStart(e.target.value)}
               onFocus={() => setIsOpenStart(true)}
               onBlur={() => setTimeout(() => setIsOpenStart(false), 100)}
               className="w-full p-2 cursor-pointer border-gray-300 border-2 placeholder:text-gray-500 text-gray-500
-               bg-white rounded-full focus:outline-none
-              focus:ring-2 focus:ring-[gold]"
+             bg-white rounded-full focus:outline-none focus:ring-2 focus:ring-[gold]"
               placeholder="مبدا (شهر , فرودگاه)"
             />
+
             {isOpenStart && (
               <ul
                 className="absolute z-10 w-full mt-1 max-h-60 overflow-y-auto bg-white border
@@ -179,14 +179,14 @@ const FirstPartForeign = () => {
             <input
               type="text"
               value={selectedEnd}
-              onChange={(e) => setSearchEnd(e.target.value)}
+              onChange={(e) => setSelectedEnd(e.target.value)}
               onFocus={() => setIsOpenEnd(true)}
               onBlur={() => setTimeout(() => setIsOpenEnd(false), 100)}
               className="w-full p-2 cursor-pointer border-gray-300 border-2 placeholder:text-gray-500 text-gray-500
-               bg-white rounded-full focus:outline-none
-              focus:ring-2 focus:ring-[gold]"
+             bg-white rounded-full focus:outline-none focus:ring-2 focus:ring-[gold]"
               placeholder="مقصد (شهر , فرودگاه)"
             />
+
             {isOpenEnd && (
               <ul
                 className="absolute z-10 w-full mt-1 max-h-60 overflow-y-auto bg-white border
