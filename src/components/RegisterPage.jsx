@@ -10,9 +10,16 @@ const RegisterPage = () => {
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [showToast, setShowToast] = useState(false);
 
   const onSubmitRegister = (data) => {
-    Register(data);
+    Register(data, {
+      onSuccess: () => {
+        setShowToast(true);
+        setTimeout(() => setShowToast(false), 3000);
+        reset();
+      },
+    });
     console.log(data);
     reset();
   };
@@ -47,6 +54,13 @@ const RegisterPage = () => {
         className="bg-white border-2 border-gray-300 rounded-lg w-2/3 py-2 px-5 focus:ring-[gold]"
       />
       <button className="bg-[gold] w-2/3 rounded-lg py-2 px-5">ثبت‌نام</button>
+      {showToast && (
+        <div className="toast toast-top toast-center">
+          <div className="alert alert-success">
+            <span>✅ ثبت‌نام با موفقیت انجام شد!</span>
+          </div>
+        </div>
+      )}
     </form>
   );
 };

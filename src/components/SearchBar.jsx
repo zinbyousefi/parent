@@ -1,12 +1,12 @@
-import { useState } from "react";
-import { IoMdAirplane } from "react-icons/io";
-import DatePicker from "react-multi-date-picker";
-import persian from "react-date-object/calendars/persian";
-import persian_fa from "react-date-object/locales/persian_fa";
 import { IoSearch } from "react-icons/io5";
 import { Link } from "react-router-dom";
 
-const FirstPart = () => {
+import DatePicker from "react-multi-date-picker";
+import persian from "react-date-object/calendars/persian";
+import persian_fa from "react-date-object/locales/persian_fa";
+import { useState } from "react";
+
+const SearchBar = () => {
   const startCity = [
     "تهران ",
     "اهواز ",
@@ -45,24 +45,20 @@ const FirstPart = () => {
 
   /////
 
-  const [isOpen, setIsOpen] = useState(false); // برای نمایش یا مخفی کردن لیست
-  const [adultCount, setAdultCount] = useState(0); // تعداد بزرگسال
-  const [childCount, setChildCount] = useState(0); // تعداد کودک
-  const [babyCount, setBabyCount] = useState(0); // تعداد نوزاد
-  const [inputValue, setInputValue] = useState(""); // برای نمایش در input
+  const [isOpen, setIsOpen] = useState(false);
+  const [adultCount, setAdultCount] = useState(0);
+  const [childCount, setChildCount] = useState(0);
+  const [babyCount, setBabyCount] = useState(0);
+  const [inputValue, setInputValue] = useState("");
 
-  // تابع برای باز و بسته کردن لیست
   const toggleDropdown = () => setIsOpen(!isOpen);
 
-  // تابع برای تغییر مقدار در input
   const updateInputValue = () => {
-    // محاسبه مجموع تعدادها مستقیماً در setInputValue
     setInputValue(
       `${adultCount} بزرگسال، ${childCount} کودک، ${babyCount} نوزاد`
     );
   };
 
-  // تغییر تعداد بزرگسال
   const incrementAdult = () => {
     setAdultCount(adultCount + 1);
     updateInputValue();
@@ -75,7 +71,6 @@ const FirstPart = () => {
     }
   };
 
-  // تغییر تعداد کودک
   const incrementChild = () => {
     setChildCount(childCount + 1);
     updateInputValue();
@@ -88,7 +83,6 @@ const FirstPart = () => {
     }
   };
 
-  // تغییر تعداد نوزاد
   const incrementBaby = () => {
     setBabyCount(babyCount + 1);
     updateInputValue();
@@ -102,27 +96,8 @@ const FirstPart = () => {
   };
 
   const [tripType, setTripType] = useState("یک طرفه");
-
   return (
-    <div className="z-40  w-full flex flex-col gap-4 px-24 absolute top-[210px]">
-      <div className="backdrop-blur-md p-5 rounded-full bg-opacity-20 bg-white flex gap-8">
-        <div
-          className="text-black bg-white border-4 border-[gold] 
-        flex cursor-pointer items-center gap-2 rounded-full p-2 px-5"
-        >
-          <IoMdAirplane className="text-[gold]" />
-          پرواز داخلی
-        </div>
-        <Link to={"/foreign"}>
-          <div
-            className="text-gray-700 border-4 border-gray-300 bg-white flex gap-2 
-         cursor-pointer items-center rounded-full p-2 px-5"
-          >
-            <IoMdAirplane />
-            پرواز خارجی
-          </div>
-        </Link>
-      </div>
+    <div className="z-40  w-full flex flex-col gap-4 px-24">
       <div className="bg-white pb-10 p-6 rounded-lg flex flex-col gap-14 shadow-md">
         <select
           className="py-1 px-2 text-xs rounded-full border-gray-300 border-2 text-black
@@ -248,19 +223,17 @@ const FirstPart = () => {
             />
           </div>
           <div className="relative">
-            {/* ورودی با placeholder */}
             <input
               type="text"
               placeholder="مسافر"
-              value={inputValue} // برای مدیریت مقدار ورودی
-              onClick={toggleDropdown} // برای باز کردن dropdown
-              onChange={updateInputValue} // برای بروزرسانی مقدار
+              value={inputValue}
+              onClick={toggleDropdown}
+              onChange={updateInputValue}
               className="w-full p-2 cursor-pointer border-gray-300 border-2 placeholder:text-gray-500 text-gray-500
                bg-white rounded-full focus:outline-none
               focus:ring-2 focus:ring-[gold]"
             />
 
-            {/* لیست انتخاب‌ها */}
             {isOpen && (
               <div
                 className="absolute mt-2 p-4 border text-gray-500 text-sm
@@ -337,4 +310,4 @@ const FirstPart = () => {
   );
 };
 
-export default FirstPart;
+export default SearchBar;

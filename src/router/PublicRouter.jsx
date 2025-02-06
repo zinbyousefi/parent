@@ -5,6 +5,9 @@ import Foreign from "../pages/Foreign";
 import ProfileLayout from "../layout/ProfileLayout";
 import MyAccount from "../pages/MyAccount";
 import MyOrders from "../pages/MyOrders";
+import OrdersProgress from "../pages/OrdersProgress";
+import Search from "../pages/Search";
+import OrderDetail from "../pages/OrderDetail";
 
 const router = createBrowserRouter([
   {
@@ -42,6 +45,22 @@ const router = createBrowserRouter([
         <MyOrders />
       </ProfileLayout>
     ),
+  },
+  {
+    path: "/order-detail",
+    element: (
+      <ProfileLayout>
+        <OrderDetail />
+      </ProfileLayout>
+    ),
+  },
+  {
+    path: "/orders-progress",
+    element: <OrdersProgress />,
+  },
+  {
+    path: "/search",
+    element: <Search />,
   },
 ]);
 export default router;
