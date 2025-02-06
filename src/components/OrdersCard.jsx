@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import { IoIosArrowBack } from "react-icons/io";
+import { Link } from "react-router-dom";
 
 const OrdersCard = ({ transportation, status, orderNumber, amount, icon }) => {
   return (
@@ -27,10 +28,14 @@ const OrdersCard = ({ transportation, status, orderNumber, amount, icon }) => {
             </span>
           </div>
         </div>
-        <div className="text-sm text-[#9333ea] flex gap-2 items-center cursor-pointer">
+
+        <Link
+          to={"/order-detail"}
+          className="text-sm text-[#9333ea] flex gap-2 items-center cursor-pointer"
+        >
           جزییات سفارش
           <IoIosArrowBack />
-        </div>
+        </Link>
       </div>
     </div>
   );
