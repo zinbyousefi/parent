@@ -1,8 +1,10 @@
 import PropTypes from "prop-types";
 import { IoIosArrowBack } from "react-icons/io";
-import { Link } from "react-router-dom";
+
 
 const OrdersCard = ({ transportation, status, orderNumber, amount, icon }) => {
+  
+
   return (
     <div className="border p-2 rounded-md border-gray-300">
       <div className="flex w-full justify-between items-center border-b border-gray-300 p-5">
@@ -10,7 +12,9 @@ const OrdersCard = ({ transportation, status, orderNumber, amount, icon }) => {
           {icon}
           {transportation}
         </h2>
-        <span className="text-xs text-green-500 bg-green-100 px-2 py-1 rounded-md">
+        <span
+          className={`text-xs text-blue-500 bg-blue-100 px-2 py-1 rounded-md`}
+        >
           {status}
         </span>
       </div>
@@ -29,13 +33,10 @@ const OrdersCard = ({ transportation, status, orderNumber, amount, icon }) => {
           </div>
         </div>
 
-        <Link
-          to={"/order-detail"}
-          className="text-sm text-[#9333ea] flex gap-2 items-center cursor-pointer"
-        >
+        <span className="text-sm text-[#9333ea] flex gap-2 items-center cursor-pointer">
           جزییات سفارش
           <IoIosArrowBack />
-        </Link>
+        </span>
       </div>
     </div>
   );

@@ -47,7 +47,7 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/order-detail",
+    path: "/order-detail/:id",
     element: (
       <ProfileLayout>
         <OrderDetail />

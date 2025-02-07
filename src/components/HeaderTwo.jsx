@@ -23,7 +23,9 @@ const HeaderTwo = () => {
         <Link to={"/"}>
           <div className="flex gap-2 items-center">
             <img src="logo.png" className="size-10"></img>
-            <a className="btn btn-ghost text-3xl font-bold text-black">پرنت</a>
+            <span className="btn btn-ghost text-3xl font-bold text-black">
+              پرنت
+            </span>
           </div>
         </Link>
         <div className="flex-none">
@@ -35,23 +37,17 @@ const HeaderTwo = () => {
                   className="bg-white rounded-lg w-32 flex flex-col 
                 justify-between text-black p-2"
                 >
-                    <li className="w-full text-black text-center whitespace-nowrap">
-                  <Link to={"/"}>
-                      پرواز داخلی
-                  </Link>
-                    </li>
-                    <li className="w-full text-black text-center whitespace-nowrap">
-                  <Link to={"/foreign"}>
-                    پرواز خارجی
-                  </Link>
-                    </li>
+                  <li className="w-full text-black text-center whitespace-nowrap">
+                    <Link to={"/"}>پرواز داخلی</Link>
+                  </li>
+                  <li className="w-full text-black text-center whitespace-nowrap">
+                    <Link to={"/foreign"}>پرواز خارجی</Link>
+                  </li>
                 </ul>
               </details>
             </li>
             <li>
-              <Link to={"/about"}>
-                <a>درباره ما</a>
-              </Link>
+              <Link to={"/about"}>درباره ما</Link>
             </li>
             <li>
               <a
