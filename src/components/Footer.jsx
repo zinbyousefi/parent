@@ -37,12 +37,12 @@ const Footer = () => {
                 پرنت
               </a>
             </div>
-            <p className="leading-7 text-sm text-gray-700 z-50">
+            <p className="leading-7 text-sm text-gray-700">
               تلفن‌ :‌ 021-12340000 <br />
               آدرس : میدان انقلاب، خیابان ولیعصر کوچه نایبی موسسه آموزش عالی
               دماوند
             </p>
-            <div className="flex gap-2 h-28 mt-5 z-50">
+            <div className="flex gap-2 h-28 mt-5">
               <img
                 src="./src/assets/images/homeImages/badges/enamad.jpg"
                 className="bg-white border rounded-md border-slate-200 p-2 w-16 h-20 object-cover"

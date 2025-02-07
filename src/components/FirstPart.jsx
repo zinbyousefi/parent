@@ -4,7 +4,7 @@ import DatePicker from "react-multi-date-picker";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
 import { IoSearch } from "react-icons/io5";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const FirstPart = () => {
   const startCity = [
@@ -30,11 +30,11 @@ const FirstPart = () => {
 
   const [searchStart, setSearchTerm] = useState("");
   const [isOpenStart, setIsOpenStart] = useState(false);
-  const [selectedStart, setSelectedStart] = useState("");
+
 
   const [searchEnd, setSearchEnd] = useState("");
   const [isOpenEnd, setIsOpenEnd] = useState(false);
-  const [selectedEnd, setSelectedEnd] = useState("");
+ 
 
   const filteredStart = startCity.filter((option) =>
     option.toLowerCase().includes(searchStart.toLowerCase())
@@ -43,65 +43,38 @@ const FirstPart = () => {
     option.toLowerCase().includes(searchEnd.toLowerCase())
   );
 
-  /////
 
-  const [isOpen, setIsOpen] = useState(false); // برای نمایش یا مخفی کردن لیست
-  const [adultCount, setAdultCount] = useState(0); // تعداد بزرگسال
-  const [childCount, setChildCount] = useState(0); // تعداد کودک
-  const [babyCount, setBabyCount] = useState(0); // تعداد نوزاد
-  const [inputValue, setInputValue] = useState(""); // برای نمایش در input
-
-  // تابع برای باز و بسته کردن لیست
-  const toggleDropdown = () => setIsOpen(!isOpen);
-
-  // تابع برای تغییر مقدار در input
-  const updateInputValue = () => {
-    // محاسبه مجموع تعدادها مستقیماً در setInputValue
-    setInputValue(
-      `${adultCount} بزرگسال، ${childCount} کودک، ${babyCount} نوزاد`
-    );
-  };
-
-  // تغییر تعداد بزرگسال
-  const incrementAdult = () => {
-    setAdultCount(adultCount + 1);
-    updateInputValue();
-  };
-
-  const decrementAdult = () => {
-    if (adultCount > 0) {
-      setAdultCount(adultCount - 1);
-      updateInputValue();
-    }
-  };
-
-  // تغییر تعداد کودک
-  const incrementChild = () => {
-    setChildCount(childCount + 1);
-    updateInputValue();
-  };
-
-  const decrementChild = () => {
-    if (childCount > 0) {
-      setChildCount(childCount - 1);
-      updateInputValue();
-    }
-  };
-
-  // تغییر تعداد نوزاد
-  const incrementBaby = () => {
-    setBabyCount(babyCount + 1);
-    updateInputValue();
-  };
-
-  const decrementBaby = () => {
-    if (babyCount > 0) {
-      setBabyCount(babyCount - 1);
-      updateInputValue();
-    }
-  };
 
   const [tripType, setTripType] = useState("یک طرفه");
+  const [selectedStart, setSelectedStart] = useState("");
+  const [selectedEnd, setSelectedEnd] = useState("");
+  const [departDate, setDepartDate] = useState(null);
+  const [returnDate, setReturnDate] = useState(null);
+  const [passengers, setPassengers] = useState({
+    adult: "",
+    child: "",
+    baby: "",
+  });
+
+  const navigate = useNavigate();
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    const queryParams = new URLSearchParams({
+      tripType,
+      selectedStart,
+      selectedEnd,
+      departDate: departDate || "",
+      returnDate: tripType === "یک طرفه" ? "" : returnDate || "",
+      adult: passengers.adult,
+      child: passengers.child,
+      baby: passengers.baby,
+    }).toString();
+
+    navigate(`/search?${queryParams}`);
+  };
+
 
   return (
     <div className="z-40  w-full flex flex-col gap-4 px-24 absolute top-[210px]">
@@ -123,7 +96,10 @@ const FirstPart = () => {
           </div>
         </Link>
       </div>
-      <div className="bg-white pb-10 p-6 rounded-lg flex flex-col gap-14 shadow-md">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white pb-10 p-6 rounded-lg flex flex-col gap-14 shadow-md"
+      >
         <select
           className="py-1 px-2 text-xs rounded-full border-gray-300 border-2 text-black
     focus:border-[gold] w-fit bg-white max-w-xs"
@@ -139,7 +115,7 @@ const FirstPart = () => {
             <input
               type="text"
               value={selectedStart}
-              onChange={(e) => setSearchTerm(e.target.value)}
+              onChange={(e) => setSelectedStart(e.target.value)}
               onFocus={() => setIsOpenStart(true)}
               onBlur={() => setTimeout(() => setIsOpenStart(false), 100)}
               className="w-full p-2 cursor-pointer border-gray-300 border-2 placeholder:text-gray-500 text-gray-500
@@ -176,7 +152,7 @@ const FirstPart = () => {
             <input
               type="text"
               value={selectedEnd}
-              onChange={(e) => setSearchEnd(e.target.value)}
+              onChange={(e) => setSelectedEnd(e.target.value)}
               onFocus={() => setIsOpenEnd(true)}
               onBlur={() => setTimeout(() => setIsOpenEnd(false), 100)}
               className="w-full p-2 cursor-pointer border-gray-300 border-2 placeholder:text-gray-500 text-gray-500
@@ -224,6 +200,7 @@ const FirstPart = () => {
                 placeholder="تاریخ رفت"
                 calendar={persian}
                 locale={persian_fa}
+                onChange={setDepartDate}
                 calendarPosition="bottom-right"
               />
             </div>
@@ -244,95 +221,59 @@ const FirstPart = () => {
               calendar={persian}
               locale={persian_fa}
               disabled={tripType === "یک طرفه"}
+              onChange={setReturnDate}
               calendarPosition="bottom-right"
             />
           </div>
-          <div className="relative">
-            {/* ورودی با placeholder */}
+          <div className="relative flex items-center gap-2">
+            <h1 className="text-xs whitespace-nowrap text-gray-600">
+              تعداد مسافران:
+            </h1>
+
             <input
               type="text"
-              placeholder="مسافر"
-              value={inputValue} // برای مدیریت مقدار ورودی
-              onClick={toggleDropdown} // برای باز کردن dropdown
-              onChange={updateInputValue} // برای بروزرسانی مقدار
+              placeholder="بزرگسال"
+              value={passengers.adult}
+              onChange={(e) =>
+                setPassengers({ ...passengers, adult: e.target.value })
+              }
               className="w-full p-2 cursor-pointer border-gray-300 border-2 placeholder:text-gray-500 text-gray-500
                bg-white rounded-full focus:outline-none
               focus:ring-2 focus:ring-[gold]"
             />
-
-            {/* لیست انتخاب‌ها */}
-            {isOpen && (
-              <div
-                className="absolute mt-2 p-4 border text-gray-500 text-sm
-               border-gray-300 bg-white rounded-md shadow-lg w-64"
-              >
-                <div className="flex justify-between items-center mb-2">
-                  <span>بزرگسال</span>
-                  <div className="flex items-center">
-                    <button
-                      onClick={decrementAdult}
-                      className="px-2 text-black bg-[gold] rounded-sm"
-                    >
-                      -
-                    </button>
-                    <span className="mx-2">{adultCount}</span>
-                    <button
-                      onClick={incrementAdult}
-                      className="px-2  text-black bg-[gold] rounded-sm"
-                    >
-                      +
-                    </button>
-                  </div>
-                </div>
-                <div className="flex justify-between items-center mb-2">
-                  <span>کودک</span>
-                  <div className="flex items-center">
-                    <button
-                      onClick={decrementChild}
-                      className="px-2 text-black bg-[gold] rounded-sm"
-                    >
-                      -
-                    </button>
-                    <span className="mx-2">{childCount}</span>
-                    <button
-                      onClick={incrementChild}
-                      className="px-2 text-black bg-[gold] rounded-sm"
-                    >
-                      +
-                    </button>
-                  </div>
-                </div>
-                <div className="flex justify-between items-center mb-2">
-                  <span>نوزاد</span>
-                  <div className="flex items-center">
-                    <button
-                      onClick={decrementBaby}
-                      className="px-2 text-black bg-[gold] rounded-sm"
-                    >
-                      -
-                    </button>
-                    <span className="mx-2">{babyCount}</span>
-                    <button
-                      onClick={incrementBaby}
-                      className="px-2 text-black bg-[gold] rounded-sm"
-                    >
-                      +
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
+            <input
+              type="text"
+              placeholder="کودک"
+              value={passengers.child}
+              onChange={(e) =>
+                setPassengers({ ...passengers, child: e.target.value })
+              }
+              className="w-full p-2 cursor-pointer border-gray-300 border-2 placeholder:text-gray-500 text-gray-500
+               bg-white rounded-full focus:outline-none
+              focus:ring-2 focus:ring-[gold]"
+            />
+            <input
+              type="text"
+              placeholder="نوزاد"
+              value={passengers.infant}
+              onChange={(e) =>
+                setPassengers({ ...passengers, baby: e.target.value })
+              }
+              className="w-full p-2 cursor-pointer border-gray-300 border-2 placeholder:text-gray-500 text-gray-500
+               bg-white rounded-full focus:outline-none
+              focus:ring-2 focus:ring-[gold]"
+            />
           </div>
-          <Link
-            to={"/search"}
+          <button
+            type="submit"
             className="bg-[gold] py-1 px-4 w-1/6 text-center text-black rounded-full
            flex gap-2 items-center justify-center text-xs"
           >
             جستجو
             <IoSearch />
-          </Link>
+          </button>
         </div>
-      </div>
+      </form>
     </div>
   );
 };

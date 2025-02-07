@@ -1,107 +1,65 @@
 import { IoSearch } from "react-icons/io5";
-import { Link } from "react-router-dom";
-
+import { useNavigate } from "react-router-dom";
 import DatePicker from "react-multi-date-picker";
 import persian from "react-date-object/calendars/persian";
 import persian_fa from "react-date-object/locales/persian_fa";
 import { useState } from "react";
 
 const SearchBar = () => {
-  const startCity = [
-    "تهران ",
-    "اهواز ",
-    "شیراز ",
-    "مشهد ",
-    "بندر عباس",
-    "اصفهان ",
-    "تبریز ",
-    "کیش ",
-  ];
-  const endCity = [
-    "تهران ",
-    "اهواز ",
-    "شیراز ",
-    "مشهد ",
-    "بندر عباس",
-    "اصفهان ",
-    "تبریز ",
-    "کیش ",
-  ];
+  const navigate = useNavigate();
 
-  const [searchStart, setSearchTerm] = useState("");
-  const [isOpenStart, setIsOpenStart] = useState(false);
-  const [selectedStart, setSelectedStart] = useState("");
-
-  const [searchEnd, setSearchEnd] = useState("");
-  const [isOpenEnd, setIsOpenEnd] = useState(false);
-  const [selectedEnd, setSelectedEnd] = useState("");
-
-  const filteredStart = startCity.filter((option) =>
-    option.toLowerCase().includes(searchStart.toLowerCase())
-  );
-  const filteredEnd = endCity.filter((option) =>
-    option.toLowerCase().includes(searchEnd.toLowerCase())
-  );
-
-  /////
-
-  const [isOpen, setIsOpen] = useState(false);
-  const [adultCount, setAdultCount] = useState(0);
-  const [childCount, setChildCount] = useState(0);
-  const [babyCount, setBabyCount] = useState(0);
-  const [inputValue, setInputValue] = useState("");
-
-  const toggleDropdown = () => setIsOpen(!isOpen);
-
-  const updateInputValue = () => {
-    setInputValue(
-      `${adultCount} بزرگسال، ${childCount} کودک، ${babyCount} نوزاد`
-    );
-  };
-
-  const incrementAdult = () => {
-    setAdultCount(adultCount + 1);
-    updateInputValue();
-  };
-
-  const decrementAdult = () => {
-    if (adultCount > 0) {
-      setAdultCount(adultCount - 1);
-      updateInputValue();
-    }
-  };
-
-  const incrementChild = () => {
-    setChildCount(childCount + 1);
-    updateInputValue();
-  };
-
-  const decrementChild = () => {
-    if (childCount > 0) {
-      setChildCount(childCount - 1);
-      updateInputValue();
-    }
-  };
-
-  const incrementBaby = () => {
-    setBabyCount(babyCount + 1);
-    updateInputValue();
-  };
-
-  const decrementBaby = () => {
-    if (babyCount > 0) {
-      setBabyCount(babyCount - 1);
-      updateInputValue();
-    }
-  };
-
+  // State for trip details
   const [tripType, setTripType] = useState("یک طرفه");
+  const [selectedStart, setSelectedStart] = useState("");
+  const [selectedEnd, setSelectedEnd] = useState("");
+  const [departDate, setDepartDate] = useState(null);
+  const [returnDate, setReturnDate] = useState(null);
+  const [passengers, setPassengers] = useState({
+    adult: "",
+    child: "",
+    baby: "",
+  });
+
+  // City options
+  const cityOptions = [
+    "تهران",
+    "اهواز",
+    "شیراز",
+    "مشهد",
+    "بندر عباس",
+    "اصفهان",
+    "تبریز",
+    "کیش",
+  ];
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+
+    // Construct query parameters
+    const searchParams = new URLSearchParams({
+      tripType,
+      selectedStart,
+      selectedEnd,
+      departDate: departDate ? departDate.format() : "",
+      returnDate:
+        tripType === "یک طرفه" ? "" : returnDate ? returnDate.format() : "",
+      adult: passengers.adult,
+      child: passengers.child,
+      baby: passengers.baby,
+    });
+
+    // Navigate to Search page with query parameters
+    navigate(`/search?${searchParams.toString()}`);
+  };
+
   return (
-    <div className="z-40  w-full flex flex-col gap-4 px-24">
-      <div className="bg-white pb-10 p-6 rounded-lg flex flex-col gap-14 shadow-md">
+    <div className="z-40 w-full flex flex-col gap-4 px-24">
+      <form
+        onSubmit={handleSubmit}
+        className="bg-white pb-10 p-6 rounded-lg flex flex-col gap-14 shadow-md"
+      >
         <select
-          className="py-1 px-2 text-xs rounded-full border-gray-300 border-2 text-black
-    focus:border-[gold] w-fit bg-white max-w-xs"
+          className="py-1 px-2 text-xs rounded-full border-gray-300 border-2 text-black focus:border-[gold] w-fit bg-white max-w-xs"
           value={tripType}
           onChange={(e) => setTripType(e.target.value)}
         >
@@ -110,202 +68,126 @@ const SearchBar = () => {
         </select>
 
         <div className="flex gap-2">
+          {/* Start City Selection */}
           <div className="relative w-1/6">
-            <input
-              type="text"
+            <select
               value={selectedStart}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              onFocus={() => setIsOpenStart(true)}
-              onBlur={() => setTimeout(() => setIsOpenStart(false), 100)}
-              className="w-full p-2 cursor-pointer border-gray-300 border-2 placeholder:text-gray-500 text-gray-500
-               bg-white rounded-full focus:outline-none
-              focus:ring-2 focus:ring-[gold]"
-              placeholder="مبدا (شهر)"
-            />
-            {isOpenStart && (
-              <ul
-                className="absolute z-10 w-full mt-1 max-h-60 overflow-y-auto bg-white border
-               border-gray-300 rounded-md shadow-lg"
-              >
-                {filteredStart.length > 0 ? (
-                  filteredStart.map((option, index) => (
-                    <li
-                      key={index}
-                      onClick={() => {
-                        setSelectedStart(option);
-                        setSearchTerm(option);
-                        setIsOpenStart(false);
-                      }}
-                      className="p-2 cursor-pointer hover:bg-gray-100"
-                    >
-                      {option}
-                    </li>
-                  ))
-                ) : (
-                  <li className="p-2 text-gray-500">نتیجه‌ای پیدا نشد</li>
-                )}
-              </ul>
-            )}
+              onChange={(e) => setSelectedStart(e.target.value)}
+              className="w-full p-2 border-gray-300 border-2 bg-white rounded-full focus:outline-none focus:ring-2 focus:ring-[gold]"
+            >
+              <option value="">مبدا (شهر)</option>
+              {cityOptions.map((city, index) => (
+                <option key={index} value={city}>
+                  {city}
+                </option>
+              ))}
+            </select>
           </div>
+
+          {/* End City Selection */}
           <div className="relative w-1/6">
-            <input
-              type="text"
+            <select
               value={selectedEnd}
-              onChange={(e) => setSearchEnd(e.target.value)}
-              onFocus={() => setIsOpenEnd(true)}
-              onBlur={() => setTimeout(() => setIsOpenEnd(false), 100)}
-              className="w-full p-2 cursor-pointer border-gray-300 border-2 placeholder:text-gray-500 text-gray-500
-               bg-white rounded-full focus:outline-none
-              focus:ring-2 focus:ring-[gold]"
-              placeholder="مقصد (شهر)"
+              onChange={(e) => setSelectedEnd(e.target.value)}
+              className="w-full p-2 border-gray-300 border-2 bg-white rounded-full focus:outline-none focus:ring-2 focus:ring-[gold]"
+            >
+              <option value="">مقصد (شهر)</option>
+              {cityOptions.map((city, index) => (
+                <option key={index} value={city}>
+                  {city}
+                </option>
+              ))}
+            </select>
+          </div>
+
+          {/* Departure Date */}
+          <div style={{ direction: "rtl" }}>
+            <DatePicker
+              style={{
+                backgroundColor: "white",
+                borderWidth: "2px",
+                borderColor: "#d1d5db",
+                height: "40px",
+                borderRadius: "9999px",
+                fontSize: "14px",
+                padding: "10px 15px",
+              }}
+              placeholder="تاریخ رفت"
+              calendar={persian}
+              locale={persian_fa}
+              value={departDate}
+              onChange={setDepartDate}
+              calendarPosition="bottom-right"
             />
-            {isOpenEnd && (
-              <ul
-                className="absolute z-10 w-full mt-1 max-h-60 overflow-y-auto bg-white border
-               border-gray-300 rounded-md shadow-lg"
-              >
-                {filteredEnd.length > 0 ? (
-                  filteredEnd.map((option, index) => (
-                    <li
-                      key={index}
-                      onClick={() => {
-                        setSelectedEnd(option);
-                        setSearchEnd(option);
-                        setIsOpenEnd(false);
-                      }}
-                      className="p-2 cursor-pointer hover:bg-gray-100"
-                    >
-                      {option}
-                    </li>
-                  ))
-                ) : (
-                  <li className="p-2 text-gray-500">نتیجه‌ای پیدا نشد</li>
-                )}
-              </ul>
-            )}
           </div>
-          <div>
-            <div style={{ direction: "rtl" }}>
-              <DatePicker
-                style={{
-                  backgroundColor: "white",
-                  borderWidth: "2px",
-                  borderColor: "#d1d5db",
-                  height: "24px",
-                  borderRadius: "9999px",
-                  fontSize: "14px",
-                  padding: "20px 15px",
-                }}
-                placeholder="تاریخ رفت"
-                calendar={persian}
-                locale={persian_fa}
-                calendarPosition="bottom-right"
-              />
-            </div>
-          </div>
+
+          {/* Return Date */}
           <div style={{ direction: "rtl" }}>
             <DatePicker
               style={{
                 backgroundColor: tripType === "یک طرفه" ? "#e5e7eb" : "white",
                 borderWidth: "2px",
                 borderColor: "#d1d5db",
-                height: "24px",
+                height: "40px",
                 borderRadius: "9999px",
                 fontSize: "14px",
-                padding: "20px 15px",
+                padding: "10px 15px",
                 cursor: tripType === "یک طرفه" ? "not-allowed" : "pointer",
               }}
               placeholder="تاریخ برگشت"
               calendar={persian}
               locale={persian_fa}
               disabled={tripType === "یک طرفه"}
+              value={returnDate}
+              onChange={setReturnDate}
               calendarPosition="bottom-right"
             />
           </div>
-          <div className="relative">
-            <input
-              type="text"
-              placeholder="مسافر"
-              value={inputValue}
-              onClick={toggleDropdown}
-              onChange={updateInputValue}
-              className="w-full p-2 cursor-pointer border-gray-300 border-2 placeholder:text-gray-500 text-gray-500
-               bg-white rounded-full focus:outline-none
-              focus:ring-2 focus:ring-[gold]"
-            />
 
-            {isOpen && (
-              <div
-                className="absolute mt-2 p-4 border text-gray-500 text-sm
-               border-gray-300 bg-white rounded-md shadow-lg w-64"
-              >
-                <div className="flex justify-between items-center mb-2">
-                  <span>بزرگسال</span>
-                  <div className="flex items-center">
-                    <button
-                      onClick={decrementAdult}
-                      className="px-2 text-black bg-[gold] rounded-sm"
-                    >
-                      -
-                    </button>
-                    <span className="mx-2">{adultCount}</span>
-                    <button
-                      onClick={incrementAdult}
-                      className="px-2  text-black bg-[gold] rounded-sm"
-                    >
-                      +
-                    </button>
-                  </div>
-                </div>
-                <div className="flex justify-between items-center mb-2">
-                  <span>کودک</span>
-                  <div className="flex items-center">
-                    <button
-                      onClick={decrementChild}
-                      className="px-2 text-black bg-[gold] rounded-sm"
-                    >
-                      -
-                    </button>
-                    <span className="mx-2">{childCount}</span>
-                    <button
-                      onClick={incrementChild}
-                      className="px-2 text-black bg-[gold] rounded-sm"
-                    >
-                      +
-                    </button>
-                  </div>
-                </div>
-                <div className="flex justify-between items-center mb-2">
-                  <span>نوزاد</span>
-                  <div className="flex items-center">
-                    <button
-                      onClick={decrementBaby}
-                      className="px-2 text-black bg-[gold] rounded-sm"
-                    >
-                      -
-                    </button>
-                    <span className="mx-2">{babyCount}</span>
-                    <button
-                      onClick={incrementBaby}
-                      className="px-2 text-black bg-[gold] rounded-sm"
-                    >
-                      +
-                    </button>
-                  </div>
-                </div>
-              </div>
-            )}
+          {/* Passengers */}
+          <div className="flex items-center gap-2">
+            <h1 className="text-xs whitespace-nowrap text-gray-600">
+              تعداد مسافران:
+            </h1>
+            <input
+              type="number"
+              placeholder="بزرگسال"
+              value={passengers.adult}
+              onChange={(e) =>
+                setPassengers({ ...passengers, adult: e.target.value })
+              }
+              className="w-16 p-2 border-gray-300 border-2 bg-white rounded-full focus:outline-none focus:ring-2 focus:ring-[gold]"
+            />
+            <input
+              type="number"
+              placeholder="کودک"
+              value={passengers.child}
+              onChange={(e) =>
+                setPassengers({ ...passengers, child: e.target.value })
+              }
+              className="w-16 p-2 border-gray-300 border-2 bg-white rounded-full focus:outline-none focus:ring-2 focus:ring-[gold]"
+            />
+            <input
+              type="number"
+              placeholder="نوزاد"
+              value={passengers.baby}
+              onChange={(e) =>
+                setPassengers({ ...passengers, baby: e.target.value })
+              }
+              className="w-16 p-2 border-gray-300 border-2 bg-white rounded-full focus:outline-none focus:ring-2 focus:ring-[gold]"
+            />
           </div>
-          <Link
-            to={"/search"}
-            className="bg-[gold] py-1 px-4 w-1/6 text-center text-black rounded-full
-           flex gap-2 items-center justify-center text-xs"
+
+          {/* Submit Button */}
+          <button
+            type="submit"
+            className="bg-[gold] py-2 px-4 text-black rounded-full flex gap-2 items-center justify-center text-xs"
           >
             جستجو
             <IoSearch />
-          </Link>
+          </button>
         </div>
-      </div>
+      </form>
     </div>
   );
 };
