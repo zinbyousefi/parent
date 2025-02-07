@@ -9,6 +9,7 @@ import { FiPlus } from "react-icons/fi";
 import useBooking from "../hooks/useBooking";
 import useUserStore from "../stores/user-store";
 import { useForm } from "react-hook-form";
+import useBookingPayment from "../hooks/useBookingPayment";
 
 const OrdersProgress = () => {
   const [step, setStep] = useState(() => {
@@ -21,7 +22,7 @@ const OrdersProgress = () => {
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
-    refund: "",
+    refund: false,
     // gender: "مرد",
     birthDate: "",
   });
@@ -31,11 +32,15 @@ const OrdersProgress = () => {
   const { id: userId, initializeAuth } = useUserStore();
 
   const { mutate } = useBooking(userId);
-    const [refundOption, setRefundOption] = useState(null);
 
-    const handleRefundChange = (e) => {
-      setRefundOption(e.target.value);
-    };
+  const [refundOption, setRefundOption] = useState(false);
+
+  const handleRefundChange = (e) => {
+    setRefundOption(e.target.value === "true");
+  };
+
+  const bookingId = localStorage.getItem("bookingId");
+  const { mutate: payment } = useBookingPayment(userId, bookingId);
 
   // useEffect(() => {
   //   const savedStep = localStorage.getItem("currentStep");
@@ -44,6 +49,14 @@ const OrdersProgress = () => {
   //   const savedPassengers = localStorage.getItem("passengerData");
   //   if (savedPassengers) setPassengerData(JSON.parse(savedPassengers));
   // }, []);
+
+  const handlePayment = (data) => {
+    payment(data, {
+      onSuccess: () => {
+        handleNextStep();
+      },
+    });
+  };
 
   const handleInputChange = (e) => {
     const { name, value } = e.target;
@@ -99,10 +112,10 @@ const OrdersProgress = () => {
           birthdate: "2025-02-07",
         },
       ],
-      refund: data.refund,
+      refund: refundOption,
     };
 
-    mutate(formattedData);
+    mutate(formattedData, { onSuccess: () => handleNextStep() });
   };
 
   const handlePervStep = () => {
@@ -119,13 +132,16 @@ const OrdersProgress = () => {
   const queryParams = new URLSearchParams(location.search);
 
   const airline = queryParams.get("airline");
-  // const flightNumber = queryParams.get("flightNumber");
+  const flightNumber = queryParams.get("flightNumber");
   const departureTime = queryParams.get("departureTime");
   const arrivalTime = queryParams.get("arrivalTime");
   const departureCity = queryParams.get("departureCity");
   const arrivalCity = queryParams.get("arrivalCity");
   const price = queryParams.get("price");
   const flightId = queryParams.get("flightId");
+  const adult = queryParams.get("adult");
+  const child = queryParams.get("child");
+  const baby = queryParams.get("baby");
 
   return (
     <div className="bg-gray-100">
@@ -174,7 +190,7 @@ const OrdersProgress = () => {
       {/* nav  */}
       <div className="px-24 mb-10">
         {step == 2 && (
-          <div className="flex flex-col gap-10 justify-center items-center pb-50">
+          <div className="flex flex-col gap-10 justify-center items-center pb-40">
             <div
               className="flex flex-col gap-5 w-2/3 p-5 border rounded-md items-start
              bg-white"
@@ -264,26 +280,36 @@ const OrdersProgress = () => {
                       className="input text-xs input-bordered border-2 whitespace-nowrap rounded-md w-full
              bg-white text-gray-800 flex items-center gap-2"
                     >
-                      روز , ماه , سال
                       <input
                         {...register("birthdate", { required: true })}
                         type="text"
                         className="grow focus:ring-[gold]"
                         onChange={handleInputChange}
+                        placeholder="روز , ماه , سال"
                       />
                     </label>
                   </div>
                 </div>
+                <button
+                  className="border-2 flex items-center w-fit gap-2 border-[#9333ea] rounded-md px-5 py-1 text-xs
+                 text-[#9333ea] hover:bg-[#9333ea] hover:text-white"
+                  onClick={() =>
+                    document.getElementById("my_modal_5").showModal()
+                  }
+                >
+                  <FiPlus />
+                  اضافه کردن مسافر
+                </button>
                 <h2 className="text-black flex items-center gap-2">
                   خدمات سفر
                 </h2>
-                <div className="bg-white p-5 flex flex-col gap-5 rounded-md border mb-20">
+                <div className="bg-white p-5 flex flex-col gap-5 rounded-md border">
                   <div className="border-2 rounded-md p-5 flex flex-col gap-3">
                     <div className="flex justify-between">
                       <label className="flex gap-2">
                         <input
                           type="radio"
-                          value={false}
+                          value="false"
                           checked={refundOption === false}
                           onChange={handleRefundChange}
                           className="radio radio-success"
@@ -302,7 +328,7 @@ const OrdersProgress = () => {
                       <label className="flex gap-2">
                         <input
                           type="radio"
-                          value={true}
+                          value="true"
                           checked={refundOption === true}
                           onChange={handleRefundChange}
                           className="radio radio-success"
@@ -352,18 +378,14 @@ const OrdersProgress = () => {
                     </div>
                   </details>
                 </div>
-                <button type="submit">ok</button>
+                <button
+                  type="submit"
+                  onSubmit={handleSubmit(handleOnSubmit)}
+                  className="bg-[#9333ea] text-white px-4 py-2 rounded"
+                >
+                  تایید و ادامه خرید
+                </button>
               </form>
-              <button
-                className="border-2 flex items-center gap-2 border-[#9333ea] rounded-md px-5 py-1 text-xs
-                 text-[#9333ea] hover:bg-[#9333ea] hover:text-white"
-                onClick={() =>
-                  document.getElementById("my_modal_5").showModal()
-                }
-              >
-                <FiPlus />
-                اضافه کردن مسافر
-              </button>
 
               <dialog
                 id="my_modal_5"
@@ -447,27 +469,27 @@ const OrdersProgress = () => {
                 </div>
                 <div className="grid grid-cols-2 p-2 w-full text-black text-sm ">
                   <span className="font-bold">مبدا</span>
-                  <span>تهران</span>
+                  <span>{departureCity}</span>
                 </div>
                 <div className="grid grid-cols-2 p-2 w-full text-black text-sm bg-gray-200 rounded-sm">
                   <span className="font-bold">مقصد</span>
-                  <span>شیراز</span>
+                  <span>{arrivalCity}</span>
                 </div>
                 <div className="grid grid-cols-2 p-2 w-full text-black text-sm ">
                   <span className="font-bold">شرکت هواپیمایی</span>
-                  <span>تابان</span>
+                  <span>{airline}</span>
                 </div>
                 <div className="grid grid-cols-2 p-2 w-full text-black text-sm bg-gray-200 rounded-sm ">
                   <span className="font-bold">تاریخ وساعت پرواز</span>
-                  <span>1403/5/6 , 12:50</span>
+                  <span>{departureTime}</span>
                 </div>
                 <div className="grid grid-cols-2 p-2 w-full text-black text-sm ">
                   <span className="font-bold">شماره پرواز</span>
-                  <span>45600</span>
+                  <span>{flightNumber}</span>
                 </div>
                 <div className="grid grid-cols-2 p-2 w-full text-black text-sm bg-gray-200 rounded-sm">
                   <span className="font-bold">مقدار باز مجاز</span>
-                  <span>20 kg</span>
+                  <span>-</span>
                 </div>
               </div>
             </div>
@@ -479,15 +501,15 @@ const OrdersProgress = () => {
               <div className="flex flex-col">
                 <div className="grid grid-cols-2 p-2 w-full text-black text-sm bg-gray-200 rounded-sm">
                   <span className="font-bold">بزرگسال</span>
-                  <span>2 نفر</span>
+                  <span>{adult}</span>
                 </div>
                 <div className="grid grid-cols-2 p-2 w-full text-black text-sm ">
                   <span className="font-bold">کودک</span>
-                  <span>2 نفر</span>
+                  <span>{child}</span>
                 </div>
                 <div className="grid grid-cols-2 p-2 w-full text-black text-sm bg-gray-200 rounded-sm">
                   <span className="font-bold">نوزاد</span>
-                  <span>2 نفر</span>
+                  <span>{baby}</span>
                 </div>
               </div>
             </div>
@@ -498,7 +520,9 @@ const OrdersProgress = () => {
               </h2>
               <div className="flex flex-col">
                 <div className="grid grid-cols-2 p-2 w-full text-black text-sm bg-gray-200 rounded-sm">
-                  <span className="font-bold">استرداد عادی</span>
+                  <span className="font-bold">
+                    {refundOption ? "استرداد بدون جریمه" : "استرداد عادی"}
+                  </span>
                 </div>
               </div>
             </div>
@@ -517,7 +541,7 @@ const OrdersProgress = () => {
                   <p>بلیط شما با موفقیت صادر شد</p>
                 </div>
                 <p className="text-base text-gray-500">
-                  شماره سفارش: <span className="font-bold">3345678</span>
+                  شماره سفارش: <span className="font-bold">{bookingId}</span>
                 </p>
                 <Link
                   to={"/my-orders"}
@@ -537,13 +561,13 @@ const OrdersProgress = () => {
               با کلیک روی تایید و ادامه خرید با قوانین سایت و قوانین پرواز
               موافقت کرده‌اید.
             </p>
-            <button
+            {/* <button
               type="submit"
               onSubmit={handleSubmit(handleOnSubmit)}
               className="bg-[#9333ea] text-white px-4 py-2 rounded"
             >
               تایید و ادامه خرید
-            </button>
+            </button> */}
           </div>
         )}
 
@@ -564,7 +588,7 @@ const OrdersProgress = () => {
                 <span className="text-[#9333ea] text-lg font-bold">12345</span>
               </span>
               <button
-                onClick={handleNextStep}
+                onClick={handlePayment}
                 className="bg-[#9333ea] text-white px-4 py-2 rounded"
               >
                 تایید و ادامه خرید

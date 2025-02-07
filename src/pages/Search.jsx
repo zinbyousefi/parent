@@ -185,7 +185,12 @@ const Search = () => {
         <div className="w-3/4 bg-white rounded-md border p-5">
           {searchData?.flights?.length > 0 ? (
             <div className="p-5 border rounded-md bg-gray-100">
-              <SearchCard data={searchData} />
+              <SearchCard
+                data={searchData}
+                adult={adult}
+                child={child}
+                baby={baby}
+              />
               {isLoading && <p className="text-gray-500">درحال جستجو.....</p>}
               {isError && (
                 <p className="text-red-600 text-center">سفری یافت نشد </p>
