@@ -1,10 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
 import apiClient from "../api/api-client";
 
-const useMyOrders = (id) => {
+const useMyOrders = (id, page) => {
   return useQuery({
-    queryKey: ["orders", id],
-    queryFn: () => apiClient.get(`/api/v1/orders/${id}`).then((res) => res.data),
+    queryKey: ["orders", id, page],
+    queryFn: async () => {
+      const params = {};
+      if (page) params.page = page;
+      const response = await apiClient.get(`/api/v1/orders/${id}`, { params });
+      return response.data;
+    },
     enabled: !!id,
   });
 };

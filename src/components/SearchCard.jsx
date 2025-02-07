@@ -2,7 +2,7 @@ import { IoIosArrowBack } from "react-icons/io";
 import PropTypes from "prop-types";
 import { useNavigate } from "react-router-dom";
 
-const SearchCard = ({ data }) => {
+const SearchCard = ({ data, adult, child, baby }) => {
   const flights = data && Array.isArray(data.flights) ? data.flights : [];
   const navigate = useNavigate();
 
@@ -16,6 +16,9 @@ const SearchCard = ({ data }) => {
       arrivalCity: segment.arrival_city,
       price: segment.price_per_adult,
       flightId: segment.id,
+      adult: adult,
+      child: child,
+      baby: baby,
     };
 
     navigate(`/orders-progress?${new URLSearchParams(flightData).toString()}`);
@@ -160,6 +163,9 @@ SearchCard.propTypes = {
       })
     ),
   }),
+  adult: PropTypes.string,
+  child: PropTypes.string,
+  baby: PropTypes.string,
 };
 
 export default SearchCard;
